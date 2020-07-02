@@ -47,17 +47,11 @@ const Dashboard: React.FC = () => {
     async function loadTransactions(): Promise<void> {
       api.get<RequestTransaction>('transactions').then(response => {
         const parsedTransactions = response.data.transactions.map(
-          transaction => {
+          (transaction: Transaction) => {
             return {
-              id: transaction.id,
-              title: transaction.title,
-              value: transaction.value,
+              ...transaction,
               formattedValue: formatValue(transaction.value),
               formattedDate: formatDate(transaction.created_at),
-              type: transaction.type,
-              category: transaction.category,
-              // eslint-disable-next-line @typescript-eslint/camelcase
-              created_at: transaction.created_at,
             };
           },
         );
